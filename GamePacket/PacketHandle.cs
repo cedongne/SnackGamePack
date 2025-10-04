@@ -1,9 +1,9 @@
-using MessagePack;
+ï»¿using MessagePack;
 
 namespace GamePacket
 {
     /// <summary>
-    /// ¹İµå½Ã <seealso cref="CreatePacket"/> ÆÑÅä¸® ¸Ş¼­µå¸¦ ÅëÇØ¼­¸¸ È£Ãâ. MessagePack Æ¯¼º »ó public constructor¸¦ ¸·À» ¼ö ¾øÀ½.
+    /// ë°˜ë“œì‹œ <seealso cref="CreatePacket"/> íŒ©í† ë¦¬ ë©”ì„œë“œë¥¼ í†µí•´ì„œë§Œ í˜¸ì¶œ. MessagePack íŠ¹ì„± ìƒ public constructorë¥¼ ë§‰ì„ ìˆ˜ ì—†ìŒ.
     /// </summary>
     [MessagePackObject(true)]
     public class GamePacket

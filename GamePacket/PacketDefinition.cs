@@ -1,8 +1,8 @@
-using MessagePack;
+ï»¿using MessagePack;
 
 namespace GamePacket
 {
-    // @TODO: IPacketPayload ÇÏÀ§ Å¸ÀÔµé Ãß°¡µÉ ¶§¸¶´Ù ÀÌ Å¸ÀÔ¿¡ ÀÚµ¿À¸·Î Ãß°¡µÇµµ·Ï À¯Æ¿¼º Á¦°ø
+    // @TODO: IPacketPayload í•˜ìœ„ íƒ€ì…ë“¤ ì¶”ê°€ë  ë•Œë§ˆë‹¤ ì´ íƒ€ì…ì— ìë™ìœ¼ë¡œ ì¶”ê°€ë˜ë„ë¡ ìœ í‹¸ì„± ì œê³µ
     public enum GamePacketType
     {
         TestPacket

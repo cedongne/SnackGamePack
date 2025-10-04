@@ -1,4 +1,4 @@
-using MessagePack;
+Ôªøusing MessagePack;
 using ENet;
 
 namespace GamePacket
@@ -36,7 +36,7 @@ namespace GamePacket
 
         public static Boolean ReceivePacket(Packet receivedPacket, out IPacketPayload? deserializedPayload)
         {
-            // Packet µ•¿Ã≈Õ ¿–±‚
+            // Packet Îç∞Ïù¥ÌÑ∞ ÏùΩÍ∏∞
             var buffer = new byte[receivedPacket.Length];
             receivedPacket.CopyTo(buffer);
 
