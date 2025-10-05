@@ -9,7 +9,7 @@ namespace SnackGamePackServer.ServerCore
             Library.Initialize();
 
             BindServer();
-            OpenPacketHandler();
+            ListenPacketEvent();
 
             Library.Deinitialize();
         }

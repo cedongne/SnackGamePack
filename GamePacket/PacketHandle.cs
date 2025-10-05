@@ -1,6 +1,7 @@
-﻿using MessagePack;
+﻿using ENet;
+using MessagePack;
 
-namespace GamePacket
+namespace GamePackets
 {
     /// <summary>
     /// 반드시 <seealso cref="CreatePacket"/> 팩토리 메서드를 통해서만 호출. MessagePack 특성 상 public constructor를 막을 수 없음.
@@ -9,9 +10,14 @@ namespace GamePacket
     public class GamePacket
     {
         public GamePacketType PacketType { get; init; }
+        public Int32? RoomUid { get; init; }
+        /// <summary>
+        /// <see cref="IGamePacketPayload"/> 타입을 Serialize 한 정보. MessagePack에는 추상 타입을 담았을 때 구체 타입으로 Deserialize 하기 어려워서<br/>
+        /// 먼저 Serilaize 한 후 담아야 함.
+        /// </summary>
         public required Byte[] Payload { get; init; }
 
-        public static GamePacket? Serialize(IPacketPayload payload)
+        public static GamePacket? Create(Peer sender, IGamePacketPayload payload)
         {
             if (Enum.TryParse<GamePacketType>(String.Intern(payload.GetType().Name), out var packetType) == false)
             {
@@ -20,17 +26,19 @@ namespace GamePacket
 
             return new GamePacket
             {
+                Sender = sender,
                 PacketType = packetType,
                 Payload = MessagePackSerializer.Serialize(payload)
             };
         }
 
-        public IPacketPayload Deserialize()
+        public IGamePacketPayload GetPayload()
         {
             return PacketType switch
             {
-                GamePacketType.TestPacket => MessagePackSerializer.Deserialize<TestPacket>(Payload),
-                _ => throw new InvalidOperationException($"{nameof(GamePacket)}.{nameof(Deserialize)}: {nameof(PacketType)}'{PacketType.ToString()}' is invalid.")
+                GamePacketType.ReqConnectClientPacket => MessagePackSerializer.Deserialize<ReqConnectClientPacket>(Payload),
+                GamePacketType.AckConnectClientPacket => MessagePackSerializer.Deserialize<AckConnectClientPacket>(Payload),
+                _ => throw new InvalidOperationException($"{nameof(GamePacket)}.{nameof(GetPayload)}: {nameof(PacketType)}'{PacketType.ToString()}' is invalid.")
             };
         }
     }

@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnackGamePackServer", "SnackGamePackServer\SnackGamePackServer.csproj", "{68AEE317-A976-47D1-9927-77E926251513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamePacket", "GamePacket\GamePacket.csproj", "{7279CBE5-F10F-422A-8A29-34C172589D4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamePacket", "GamePacket\GamePacket.csproj", "{7279CBE5-F10F-422A-8A29-34C172589D4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnackGamePackClient", "SnackGamePackClient\SnackGamePackClient.csproj", "{1F2D80B5-0E60-4171-9624-5D75D56114F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7279CBE5-F10F-422A-8A29-34C172589D4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7279CBE5-F10F-422A-8A29-34C172589D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7279CBE5-F10F-422A-8A29-34C172589D4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F2D80B5-0E60-4171-9624-5D75D56114F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F2D80B5-0E60-4171-9624-5D75D56114F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F2D80B5-0E60-4171-9624-5D75D56114F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F2D80B5-0E60-4171-9624-5D75D56114F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
