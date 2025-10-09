@@ -11,6 +11,7 @@ namespace GamePackets
     public class SerializedGamePacket
     {
         public GamePacketType PacketType { get; init; }
+        public Peer Sender { get; init; }
         public Int32? RoomUid { get; init; }
         /// <summary>
         /// <see cref="IGamePacketPayload"/> 타입을 Serialize 한 정보. MessagePack에는 추상 타입을 담았을 때 구체 타입으로 Deserialize 하기 어려워서<br/>
@@ -47,6 +48,8 @@ namespace GamePackets
     public class GamePacket
     {
         public GamePacketType PacketType { get; init; }
+        public Peer Sender { get; init; }
+        public Int32? RoomIndex { get; init; }
         public required IGamePacketPayload Payload { get; init; }
 
         private GamePacket() { }
@@ -61,8 +64,18 @@ namespace GamePackets
             return new GamePacket
             {
                 PacketType = serializedPacket.PacketType,
+                Sender = serializedPacket.Sender,
+                RoomIndex = serializedPacket.RoomUid,
                 Payload = payload
             };
         }
+    }
+
+    public interface IWithGamePacketHandlerDefinition
+    {
+        /// <summary>
+        /// Peer: Sender
+        /// </summary>
+        IReadOnlyList<KeyValuePair<GamePacketType, Func<Peer, IGamePacketPayload, Boolean>>> GamePacketHandlerDefinition { get; }
     }
 }

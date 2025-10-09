@@ -2,14 +2,13 @@
 
 namespace SnackGamePackServer.ServerCore
 {
-    public static partial class MainServer
+    public static class Program
     {
         static void Main()
         {
             Library.Initialize();
 
-            BindServer();
-            ListenPacketEvent();
+            MainServer.StartServer();
 
             Library.Deinitialize();
         }

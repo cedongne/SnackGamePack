@@ -1,5 +1,4 @@
-﻿using ENet;
-using MessagePack;
+﻿using MessagePack;
 
 namespace GamePackets
 {
@@ -11,25 +10,17 @@ namespace GamePackets
         AckConnectClientPacket
     }
 
-    public interface IGamePacketPayload
-    {
-        Peer Sender { get; init; }
-        Int32 ReceiveRoomId { get; init; }
-    }
+    public interface IGamePacketPayload;
 
     [MessagePackObject(true)]
     public record ReqConnectClientPacket : IGamePacketPayload
     {
-        public Peer Sender { get; init; }
-        public Int32 ReceiveRoomId { get; init; }
         public String? UserId { get; init; }
     }
 
     [MessagePackObject(true)]
     public record AckConnectClientPacket : IGamePacketPayload
     {
-        public Peer Sender { get; init; }
-        public Int32 ReceiveRoomId { get; init; }
         public required String UserId { get; init; }
     }
 }

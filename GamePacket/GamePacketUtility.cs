@@ -2,7 +2,7 @@
 using GamePackets;
 using ENet;
 
-namespace SnackGamePackServer.GamePacketHandler
+namespace GamePackets
 {
     public static class GamePacketUtility
     {
@@ -49,13 +49,14 @@ namespace SnackGamePackServer.GamePacketHandler
             return receiver.Send(0, ref value);
         }
 
-        public static SerializedGamePacket? DeserializePacket(Packet receivedPacket)
+        public static GamePacket? DeserializePacket(Packet receivedPacket)
         {
             // Packet 데이터 읽기
             var buffer = new byte[receivedPacket.Length];
             receivedPacket.CopyTo(buffer);
 
-            return MessagePackSerializer.Deserialize<SerializedGamePacket>(buffer);
+            var serializedGamePacket = MessagePackSerializer.Deserialize<SerializedGamePacket>(buffer);
+            return GamePacket.Create(serializedGamePacket);
         }
     }
 }
