@@ -9,7 +9,7 @@ namespace SnackGamePackServer.GamePacketHandler
         private static Packet? CreatePacket(Peer sender, IGamePacketPayload payload)
         {
             var packet = default(Packet);
-            var gamePacket = GamePacket.Create(sender, payload);
+            var gamePacket = SerializedGamePacket.Create(sender, payload);
 
             if(gamePacket == null)
             {
@@ -49,13 +49,13 @@ namespace SnackGamePackServer.GamePacketHandler
             return receiver.Send(0, ref value);
         }
 
-        public static GamePacket? DeserializePacket(Packet receivedPacket)
+        public static SerializedGamePacket? DeserializePacket(Packet receivedPacket)
         {
             // Packet 데이터 읽기
             var buffer = new byte[receivedPacket.Length];
             receivedPacket.CopyTo(buffer);
 
-            return MessagePackSerializer.Deserialize<GamePacket>(buffer);
+            return MessagePackSerializer.Deserialize<SerializedGamePacket>(buffer);
         }
     }
 }

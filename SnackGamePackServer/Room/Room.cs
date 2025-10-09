@@ -38,7 +38,7 @@ namespace SnackGamePackServer.GameRoom
             return new Room(LatestRoomIndex++);
         }
 
-        public Boolean PostPacket(Peer sender, GamePacket gamePacket)
+        public Boolean PostPacket(Peer sender, SerializedGamePacket gamePacket)
         {
             _channel.Writer.TryWrite()
         }

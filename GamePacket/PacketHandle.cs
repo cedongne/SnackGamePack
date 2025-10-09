@@ -4,10 +4,11 @@ using MessagePack;
 namespace GamePackets
 {
     /// <summary>
+    /// 네트워크로 실제 전달할 목적으로 Payload인 <see cref="IGamePacketPayload"/>를 Serialize 한 상태의 패킷. Payload를 실제로 참조하고자 한다면 <see cref="GamePacket"/>을 사용. <br/>
     /// 반드시 <seealso cref="CreatePacket"/> 팩토리 메서드를 통해서만 호출. MessagePack 특성 상 public constructor를 막을 수 없음.
     /// </summary>
     [MessagePackObject(true)]
-    public class GamePacket
+    public class SerializedGamePacket
     {
         public GamePacketType PacketType { get; init; }
         public Int32? RoomUid { get; init; }
@@ -17,14 +18,14 @@ namespace GamePackets
         /// </summary>
         public required Byte[] Payload { get; init; }
 
-        public static GamePacket? Create(Peer sender, IGamePacketPayload payload)
+        public static SerializedGamePacket? Create(Peer sender, IGamePacketPayload payload)
         {
             if (Enum.TryParse<GamePacketType>(String.Intern(payload.GetType().Name), out var packetType) == false)
             {
                 return default;
             }
 
-            return new GamePacket
+            return new SerializedGamePacket
             {
                 Sender = sender,
                 PacketType = packetType,
@@ -38,7 +39,29 @@ namespace GamePackets
             {
                 GamePacketType.ReqConnectClientPacket => MessagePackSerializer.Deserialize<ReqConnectClientPacket>(Payload),
                 GamePacketType.AckConnectClientPacket => MessagePackSerializer.Deserialize<AckConnectClientPacket>(Payload),
-                _ => throw new InvalidOperationException($"{nameof(GamePacket)}.{nameof(GetPayload)}: {nameof(PacketType)}'{PacketType.ToString()}' is invalid.")
+                _ => throw new InvalidOperationException($"{nameof(SerializedGamePacket)}.{nameof(GetPayload)}: {nameof(PacketType)}'{PacketType.ToString()}' is invalid.")
+            };
+        }
+    }
+
+    public class GamePacket
+    {
+        public GamePacketType PacketType { get; init; }
+        public required IGamePacketPayload Payload { get; init; }
+
+        private GamePacket() { }
+
+        public static GamePacket? Create(SerializedGamePacket serializedPacket)
+        {
+            var payload = serializedPacket.GetPayload();
+            if (payload is null)
+            {
+                return default;
+            }
+            return new GamePacket
+            {
+                PacketType = serializedPacket.PacketType,
+                Payload = payload
             };
         }
     }

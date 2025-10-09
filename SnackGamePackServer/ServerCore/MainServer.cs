@@ -12,14 +12,14 @@ namespace SnackGamePackServer.ServerCore
         private static readonly PacketDispatcher _dispatcher = new PacketDispatcher();
 
         // Room 단위로 단일 큐 기반 동기화. 비동기 작업들까지 처리 가능함.
-        private static Channel<Func<GamePacket, Boolean>> _channel;
+        private static Channel<Func<IGamePacketPayload, Boolean>> _channel;
 
         private static void Initialize()
         {
             var channelOptions = new UnboundedChannelOptions();
             channelOptions.SingleReader = true;
 
-            _channel = Channel.CreateUnbounded<Func<GamePacket, Boolean>>(channelOptions);
+            _channel = Channel.CreateUnbounded<Func<IGamePacketPayload, Boolean>>(channelOptions);
 
             BindServer();
             ListenPacketEvent();
@@ -75,24 +75,19 @@ namespace SnackGamePackServer.ServerCore
             {
                 return false;
             }
-            _channel.Writer.TryWrite();
+            _channel.Writer.TryWrite(handler);
 
             return true;
         }
 
-        /// <summary>
-        /// @TODO: <see cref="GamePacket"/> 대신에 Deserialized 타입을 써야 함. 이 타입의 Payload는 byte[]임.
-        /// </summary>
-        /// <param name="gamePacket"></param>
-        /// <returns></returns>
-        private static Func<Boolean> GetGamePacketHandler(GamePacket gamePacket) => () =>
+        private static Func<IGamePacketPayload, Boolean> GetGamePacketHandler(GamePacket gamePacket) => _ =>
         {
             if (GamePacketHandlersDefinition.TryGetValue(gamePacket.PacketType, out var handler) == false)
             {
-                return false;
+                return ;
             }
 
-            return handler(gamePacket);
+            return handler;
         };
 
         private static FrozenDictionary<GamePacketType, Func<IGamePacketPayload, Boolean>> GamePacketHandlersDefinition
